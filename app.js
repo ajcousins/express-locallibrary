@@ -13,6 +13,8 @@ var helmet = require("helmet");
 
 var app = express();
 
+app.use(helmet());
+
 // Sep up mongoose connection
 var mongoose = require("mongoose");
 var mongoDB =
