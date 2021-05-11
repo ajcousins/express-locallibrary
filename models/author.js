@@ -38,7 +38,24 @@ AuthorSchema.virtual("date_of_birth_formatted").get(function () {
 AuthorSchema.virtual("date_of_death_formatted").get(function () {
   return this.date_of_death
     ? DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)
-    : "Present";
+    : "Unknown";
+});
+
+// Virtual for author date_of_birth_date
+// Correct formatting for html date input.
+AuthorSchema.virtual("date_of_birth_short").get(function () {
+  let dateArr = DateTime.fromJSDate(this.date_of_birth)
+    .toLocaleString(DateTime.DATE_SHORT)
+    .split("/");
+  return `${
+    dateArr[2]
+  }-${dateArr[0].length === 1 ? 0 + dateArr[0] : dateArr[0]}-${dateArr[1].length === 1 ? 0 + dateArr[1] : dateArr[1]}`;
+});
+
+// Virtual for author date_of_death_date
+// Correct formatting for html date input.
+AuthorSchema.virtual("date_of_death_short").get(function () {
+  return DateTime.fromJSDate(this.date_of_death).toISODate();
 });
 
 //Export model

@@ -5,23 +5,25 @@ block content
 
   form(method='POST' action='')
     div.form-group
-      label(for='book') Book: #{bookinstance.book.title}
-
+      label(for='book') #[strong Title:] #{bookinstance.book.title}
+      p #[strong Instance ID:] #{bookinstance._id}
+      input#book.form-control(type='hidden' name='book' value=bookinstance.book._id)
 
     div.form-group
-      label(for='imprint') Imprint:
+      label(for='imprint') #[strong Imprint:]
       input#imprint.form-control(type='text' placeholder='Publisher and date information' name='imprint' required='true' value=(undefined===bookinstance ? '' : bookinstance.imprint))
+    
     div.form-group
-      label(for='due_back') Date when book available:
-      input#due_back.form-control(type='date' name='due_back_short' value=(bookinstance.due_back_short) placeholder=(bookinstance.due_back_short))
+      label(for='status') #[strong Status: ]
+      select#status.form-control(type='select' placeholder='Select status' name='status' required='true')
+        for i in ['Maintenance', 'Available', 'Loaned', 'Reserved']
+          option(value=i selected=(bookinstance.status===i ? 'Selected' : null)) #{i}
 
     div.form-group
-      label(for='status') Status:
-      select#status.form-control(type='select' placeholder='Select status' name='status' required='true')
-        option(value='Maintenance' selected=(bookinstance.status==='Maintenance' ? 'Selected' : null)) Maintenance
-        option(value='Available' selected=(bookinstance.status==='Available' ? 'Selected' : null)) Available
-        option(value='Loaned' selected=(bookinstance.status==='Loaned' ? 'Selected' : null)) Loaned
-        option(value='Reserved' selected=(bookinstance.status==='Reserved' ? 'Selected' : null)) Reserved
+      label(for='due_back') #[strong Date when book available:]
+      input#due_back.form-control(type='date' name='due_back' value=(bookinstance.due_back_short || ''))
+
+    
 
     button.btn.btn-primary(type='submit') Submit
 
